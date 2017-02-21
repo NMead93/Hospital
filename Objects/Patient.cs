@@ -133,6 +133,43 @@ namespace Hospital.Objects
       }
     }
 
+    public static Patient Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM patients WHERE id = @PatientId;", conn);
+      SqlParameter patientIdParameter = new SqlParameter();
+      patientIdParameter.ParameterName = "@PatientId";
+      patientIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(patientIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundPatientId = 0;
+      string foundPatientName = null;
+      string foundPatientBirthday = null;
+      int foundPatientDoctorId = 0;
+
+      while(rdr.Read())
+      {
+        foundPatientId = rdr.GetInt32(0);
+        foundPatientName = rdr.GetString(1);
+        foundPatientBirthday = rdr.GetString(3);
+        foundPatientDoctorId = rdr.GetInt32(2);
+      }
+      Patient foundPatient = new Patient(foundPatientName, foundPatientBirthday,  foundPatientDoctorId, foundPatientId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundPatient;
+    }
+
 
     public static void DeleteAll()
     {

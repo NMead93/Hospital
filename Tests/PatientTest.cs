@@ -65,5 +65,16 @@ namespace Hospital
       //Assert
       Assert.Equal(testId,result);
     }
+
+    [Fact]
+    public void Test_Find_FindsPatientInDatabase()
+    {
+      Patient testPatient = new Patient("Minh", "June 30 1993", 5);
+      testPatient.Save();
+
+      Patient foundPatient = Patient.Find(testPatient.GetId());
+
+      Assert.Equal(testPatient, foundPatient);
+    }
   }
 }
