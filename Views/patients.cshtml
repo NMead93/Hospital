@@ -1,0 +1,20 @@
+@{
+  Layout = "Shared/_Layout.cshtml";
+}
+
+@if (@Model.Count == 0)
+{
+  <p>No Patients yet!</p>
+}
+else
+{
+  <h1>Here is your list of patients:</h1>
+  <ul>
+    @foreach (var patient in Model)
+    {
+      <li>@patient.GetName()</li>
+      <li>@patient.GetBirthday()</li>
+      <li>@patient.GetDoctorId()</li>
+    }
+  </ul>
+<p><a href="/">Return home</a></p>
